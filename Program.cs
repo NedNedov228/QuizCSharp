@@ -15,7 +15,7 @@ namespace Quiz
 
         #region Methods
 
-        static void LoginAction()
+        static bool LoginAction()
         {
             Console.Write("Enter login: ");
             string? login = Console.ReadLine();
@@ -24,14 +24,17 @@ namespace Quiz
             if (Authentification.Login(login, password))
             {
                 currentUser = Content.FindUser(login);
-                isAuthed = true;
                 success = "You are logged in";
                 Console.Clear();
+
+                return true;
             }
             else
             {
                 error = "Invalid login or password";
                 Console.Clear();
+
+                return false;
             }
         }
 
@@ -217,7 +220,7 @@ namespace Quiz
             while (true)
             {
 
-
+                
                 currentMenu.Show();
 
                 Utils.DisplayMessages(ref error, ref success);
@@ -244,8 +247,11 @@ namespace Quiz
                         }
                         else
                         {
-                            LoginAction();
-                            currentMenu = authedMenu;
+                            if (LoginAction())
+                            {
+                                isAuthed = true;
+                                currentMenu = authedMenu;
+                            }
                         }
 
                         break;
